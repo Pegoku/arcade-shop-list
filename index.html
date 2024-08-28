@@ -20,11 +20,12 @@
 </head>
 <body>
     <h1>Arcade Shop List</h1>
-    <label for="tickets">Enter tickets:</label>
-    <input type="number" id="tickets" name="tickets" min="0">
-    <button onclick="fetchAndDisplayData()">Submit</button>
     <div id="spreadsheet"></div>
+    
+    <!-- Quantity selector -->
 
+
+    
     <script>
 
         // Example
@@ -42,12 +43,24 @@
         //     "2": 2,
         //   }
         // }
-
+        
         let nItems = 0;
         let nameItem = {};
         let priceItem = {};
 
         const url = "http://127.0.0.1:5000/fetch-data";
+        
+        function increaseQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+        }
+
+        function decreaseQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            if (quantityInput.value > 0) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+            }
+        }
         
         fetch(url)
             .then(response => response.json())
@@ -63,7 +76,7 @@
             // Create table header
             const header = table.createTHead();
             const headerRow = header.insertRow(0);
-            const headers = ['Image', 'Name', 'Price'];
+            const headers = ['Image', 'Name', 'Price', 'Quantity'];
             headers.forEach((headerText, index) => {
                 const cell = headerRow.insertCell(index);
                 cell.outerHTML = `<th>${headerText}</th>`;
@@ -78,10 +91,12 @@
                 const imgCell = row.insertCell(0);
                 const nameCell = row.insertCell(1);
                 const priceCell = row.insertCell(2);
-
+                const qttyCell = row.insertCell(3);
+                
                 imgCell.innerHTML = `<img src="${data.imgItem[i]}" alt="Item Image" width="50" height="50">`;
                 nameCell.textContent = data.nameItem[i];
                 priceCell.textContent = data.priceItem[i];
+                qttyCell.innerHTML = `<input type="number" id="$(quantity[i])" name="quantity" value="0" min="0" max="10">`;
             }
 
             // Append table to the div
