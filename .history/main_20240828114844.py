@@ -11,3 +11,4 @@ if response.status_code == 200:
 else:
     print("Error fetching data")
 
+print
