@@ -54,6 +54,6 @@ for item in data['pageProps']['availableItems']:
     # print(f"{item['Full Name']} - {item['Cost Hours']} hours")
 
 for i in range(1, nItems+1):
-    print(f"{i} {nameItem[i]} - {priceItem[i]} hours")
+    print(f"{i} {nameItem[i]} {priceItem[i]}")
 
 # print(nItems)
