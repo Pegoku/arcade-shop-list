@@ -1,5 +1,8 @@
 import requests
 import json
+from flask import Flask, jsonify
+
+app = Flask(__name__)
 
 nItems = 0
 nameItem = {}
