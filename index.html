@@ -20,14 +20,11 @@
 </head>
 <body>
     <h1>Arcade Shop List</h1>
+    <h2>Total Price: <span id="totalPrice">0</span></h2>
+
     <div id="spreadsheet"></div>
     
-    <!-- Quantity selector -->
-
-
-    
     <script>
-
         // Example
         // {
         //    "imgItem": {
@@ -49,19 +46,7 @@
         let priceItem = {};
 
         const url = "http://127.0.0.1:5000/fetch-data";
-        
-        function increaseQuantity() {
-            const quantityInput = document.getElementById('quantity');
-            quantityInput.value = parseInt(quantityInput.value) + 1;
-        }
-
-        function decreaseQuantity() {
-            const quantityInput = document.getElementById('quantity');
-            if (quantityInput.value > 0) {
-                quantityInput.value = parseInt(quantityInput.value) - 1;
-            }
-        }
-        
+                
         fetch(url)
             .then(response => response.json())
             .then(data => {
@@ -96,11 +81,24 @@
                 imgCell.innerHTML = `<img src="${data.imgItem[i]}" alt="Item Image" width="50" height="50">`;
                 nameCell.textContent = data.nameItem[i];
                 priceCell.textContent = data.priceItem[i];
-                qttyCell.innerHTML = `<input type="number" id="$(quantity[i])" name="quantity" value="0" min="0" max="10">`;
+                qttyCell.innerHTML = `<input type="number" id="quantity${i}" name="quantity" value="0" min="0" max="10" onchange="updateTotalPrice()">`;
             }
 
             // Append table to the div
             spreadsheetDiv.appendChild(table);
+        }
+
+        function updateTotalPrice() {
+            const nItems = document.querySelectorAll('[id^="quantity"]').length;
+            let totalPrice = 0;
+
+            for (let i = 1; i <= nItems; i++) {
+                const quantity = document.getElementById(`quantity${i}`).value;
+                const price = document.querySelector(`#quantity${i}`).closest('tr').cells[2].textContent;
+                totalPrice += quantity * price;
+            }
+
+            document.getElementById('totalPrice').textContent = totalPrice;
         }
     </script>
 </body>
