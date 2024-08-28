@@ -78,7 +78,7 @@
                 const priceCell = row.insertCell(2);
                 const qttyCell = row.insertCell(3);
                 
-                imgCell.innerHTML = `<img src="${data.imgItem[i]}" alt="Item Image" width="50" height="50">`;
+                imgCell.innerHTML = `<img src="${data.imgItem[i]}" alt="Item Image" height="50">`;
                 nameCell.textContent = data.nameItem[i];
                 priceCell.textContent = data.priceItem[i];
                 qttyCell.innerHTML = `<input type="number" id="quantity${i}" name="quantity" value="0" min="0" max="10" onchange="updateTotalPrice()">`;
