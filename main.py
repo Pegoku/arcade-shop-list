@@ -7,6 +7,8 @@ app = Flask(__name__)
 nItems = 0
 nameItem = {}
 priceItem = {}
+imgItem = {}
+
 
 
 # Example =
@@ -53,10 +55,33 @@ for item in data['pageProps']['availableItems']:
     
     nameItem[nItems] = item['Full Name']
     priceItem[nItems] = item['Cost Hours']
+    imgItem[nItems] = item['Image URL']
     
     # print(f"{item['Full Name']} - {item['Cost Hours']} hours")
 
 for i in range(1, nItems+1):
-    print(f"{i} {nameItem[i]} {priceItem[i]}")
+    print(f"{i} {nameItem[i]} {priceItem[i]} {imgItem[i]}")
 
-# print(nItems)
+# Convert name price and img to json (all in one json)
+
+# nameItem = json.dumps(nameItem)
+# priceItem = json.dumps(priceItem)
+# imgItem = json.dumps(imgItem)
+
+@app.route('/fetch-name')
+def fetch_name():
+    return jsonify(nameItem)
+
+@app.route('/fetch-price')
+def fetch_price():
+    return jsonify(priceItem)
+
+@app.route('/fetch-img')
+def fetch_img():
+    return jsonify(imgItem)
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+
