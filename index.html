@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcade Shop List</title>
+</head>
+<body>
+    <h1>Arcade Shop List</h1>
+    <ul id="item-list"></ul>
+
+    <script>
+        let nItems = 0;
+        let nameItem = {};
+        let priceItem = {};
+
+        const url = "https://hackclub.com/_next/data/rUhEd7pIikv8meewfnRPN/arcade/shop.json";
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                // Store data in localStorage
+                localStorage.setItem('data', JSON.stringify(data));
+
+                // Sort the items by cost
+                data.pageProps.availableItems.sort((a, b) => a.CostHours - b.CostHours);
+
+                // Remove stock = 0
+                data.pageProps.availableItems = data.pageProps.availableItems.filter(item => item.Stock !== 0);
+
+                // Get the Full name of all the items followed by the cost in hours
+                data.pageProps.availableItems.forEach(item => {
+                    nItems += 1;
+                    nameItem[nItems] = item.FullName;
+                    priceItem[nItems] = item.CostHours;
+                });
+
+                // Display the items in the HTML
+                const itemList = document.getElementById('item-list');
+                for (let i = 1; i <= nItems; i++) {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${i} ${nameItem[i]} ${priceItem[i]}`;
+                    itemList.appendChild(listItem);
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching data", error);
+            });
+    </script>
+</body>
+</html>
